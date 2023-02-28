@@ -55,6 +55,7 @@ assert!(weak.upgrade().is_none());
 
 */
 
+#![feature(unsize, coerce_unsized)]
 #![no_std]
 extern crate alloc;
 
@@ -122,6 +123,8 @@ macro_rules! implementation {
 
             }
         }
+
+        impl<T: ?Sized + core::marker::Unsize<U>, U: ?Sized> core::ops::CoerceUnsized<PinWeak<U>> for PinWeak<T> {}
 
         #[test]
         fn test() {
